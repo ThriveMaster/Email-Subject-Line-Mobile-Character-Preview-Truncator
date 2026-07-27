@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Subject Line & Preview Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .preview-box {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 min-h-screen p-6 transition-colors duration-300">
+
+    <div class="max-w-4xl mx-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden">
+        
+        <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-700 p-6 text-white">
+            <h1 class="text-2xl font-extrabold tracking-tight">Subject Line & Preview Simulator</h1>
+            <p class="text-indigo-100 text-sm mt-1">Visualize how your emails appear on mobile devices and prevent important hooks from getting cut off.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-zinc-200 dark:divide-zinc-800">
+            <!-- Inputs -->
+            <div class="p-6 flex flex-col gap-5 bg-zinc-50/50 dark:bg-zinc-900/40">
+                <div>
+                    <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Subject Line</label>
+                    <input type="text" id="input-subject" maxlength="70" placeholder="Enter subject line..." class="w-full mt-2 bg-white dark:bg-zinc-800 border border-zinc-700 rounded-lg p-3 font-medium outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="text-[10px] text-zinc-500 mt-1"><span id="sub-count">0</span>/70 characters</div>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Pre-header Text</label>
+                    <input type="text" id="input-preview" maxlength="100" placeholder="Enter pre-header/preview text..." class="w-full mt-2 bg-white dark:bg-zinc-800 border border-zinc-700 rounded-lg p-3 font-medium outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="text-[10px] text-zinc-500 mt-1"><span id="pre-count">0</span>/100 characters</div>
+                </div>
+            </div>
+
+            <!-- Outputs -->
+            <div class="p-6 bg-white dark:bg-zinc-900 flex flex-col gap-6">
+                <span class="text-[10px] font-bold text-zinc-400 uppercase">Mobile Preview Simulation</span>
+                
+                <div class="flex flex-col gap-4">
+                    <!-- iOS Preview -->
+                    <div class="border-b dark:border-zinc-800 pb-4">
+                        <div class="text-[10px] text-zinc-400 mb-1">iOS Mail (iPhone 15)</div>
+                        <div class="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-lg w-full">
+                            <div id="ios-subject" class="font-bold text-sm truncate">Subject Line</div>
+                            <div id="ios-preview" class="text-xs text-zinc-500 truncate mt-0.5">Pre-header text...</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gmail Preview -->
+                    <div>
+                        <div class="text-[10px] text-zinc-400 mb-1">Gmail Mobile</div>
+                        <div class="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-lg w-full">
+                            <div id="gmail-subject" class="font-bold text-sm truncate">Subject Line</div>
+                            <div id="gmail-preview" class="text-xs text-zinc-500 truncate mt-0.5">Pre-header text...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputSubject = document.getElementById("input-subject");
+        const inputPreview = document.getElementById("input-preview");
+        const subCount = document.getElementById("sub-count");
+        const preCount = document.getElementById("pre-count");
+
+        const updatePreview = () => {
+            const subject = inputSubject.value || "Your Subject Line Will Appear Here";
+            const preview = inputPreview.value || "Your pre-header text will appear here...";
+
+            subCount.textContent = inputSubject.value.length;
+            preCount.textContent = inputPreview.value.length;
+
+            ["ios", "gmail"].forEach(id => {
+                document.getElementById(`${id}-subject`).textContent = subject;
+                document.getElementById(`${id}-preview`).textContent = preview;
+            });
+        };
+
+        [inputSubject, inputPreview].forEach(el => el.addEventListener("input", updatePreview));
+        updatePreview();
+    </script>
+</body>
+</html>
